@@ -4,17 +4,29 @@ on:
   push:
     branches:
       - main
-
   pull_request:
+  schedule:
+    - cron: '0 4 * * *'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Ruby ${{ matrix.ruby }}
+    name: Ruby ${{ matrix.ruby }} / Rails ${{ matrix.rails }}
     strategy:
       matrix:
         ruby:
-          - '3.3.4'
+          - '3.3'
+          - '3.2'
+          - '3.1'
+        rails:
+          - '7.2'
+          - '7.1'
+          - '7.0'
+        include:
+          - ruby: ruby-head
+            rails: edge
+    env:
+      RAILS_VERSION: ${{ matrix.rails }}
 
     steps:
     - uses: actions/checkout@v4
@@ -23,5 +35,7 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
+      continue-on-error: ${{ (matrix.ruby == 'ruby-head')}}
     - name: Run the default task
       run: bundle exec rake
+      continue-on-error: ${{ (matrix.ruby == 'ruby-head')}}

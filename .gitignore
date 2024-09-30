@@ -7,5 +7,12 @@
 /spec/reports/
 /tmp/
 
+/Gemfile.lock
+
+/spec/dummy/log/*
+/spec/dummy/tmp/*
+!/spec/dummy/log/.keep
+!/spec/dummy/tmp/.keep
+
 # rspec failure tracking
 .rspec_status

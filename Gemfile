@@ -2,11 +2,23 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in actionpack-cloudfront_viewer_address.gemspec
 gemspec
 
-gem "rake", "~> 13.0"
+if ENV["RAILS_VERSION"] == "edge"
+  gem "rails", github: "rails/rails", branch: "main"
+elsif ENV["RAILS_VERSION"]
+  gem "rails", "~> #{ENV["RAILS_VERSION"]}.0"
+else
+  gem "rails"
+end
 
-gem "rspec", "~> 3.0"
+gem "rake"
 
-gem "rubocop", "~> 1.21"
+gem "rspec", require: false
+gem "rspec-rails", require: false
+gem "rubocop", require: false
+gem "rubocop-performance", require: false
+gem "rubocop-rails", require: false
+gem "rubocop-rake", require: false
+gem "rubocop-rspec", require: false
+gem "rubocop-rspec_rails", require: false
